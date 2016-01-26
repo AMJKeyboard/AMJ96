@@ -1,5 +1,10 @@
 #include "keymap_common.h"
 
+#ifdef UART_RGB_ENABLE
+#include "uart_rgb.h"
+#endif
+
+
 
 // Default
 #ifdef KEYMAP_SECTION_ENABLE
@@ -23,7 +28,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      * `----------------------------------------------------------------------------'
      */
     KEYMAP(
-        ESC, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, PSCR,PAUS,  INS, DEL, PGUP,PGDN, \
+        ESC, FN1,  FN2,  FN3,  FN4,  FN5,  FN6,  FN7,  FN8,  FN9,  FN10, F11, F12, PSCR,PAUS,  INS, DEL, PGUP,PGDN, \
         GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, BSPC,NO,    NLCK,PSLS,PAST,PMNS, \
         TAB, Q,   W,   E,   R,   T,   Y,   U,   I,   O,   P,   LBRC,RBRC,     BSLS,  P7,  P8,  P9,  PPLS, \
         CAPS,A,   S,   D,   F,   G,   H,   J,   K,   L,   SCLN,QUOT,          ENT,   P4,  P5,  P6,  PPLS, \
@@ -45,7 +50,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      * `----------------------------------------------------------------------------'
      */
     KEYMAP(
-        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,  TRNS,TRNS,HOME,END,\
+        TRNS,FN1,FN2,FN3,FN4,FN5,FN6,FN7,FN8,FN9,TRNS,TRNS,TRNS,TRNS,TRNS,  TRNS,TRNS,HOME,END,\
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,NO,    TRNS,TRNS,TRNS,TRNS,\
         TRNS,TRNS,UP,  TRNS,TRNS,TRNS,CALC,TRNS,INS, TRNS,PSCR,SLCK,PAUS,     TRNS,  TRNS,TRNS,TRNS,TRNS,\
         TRNS,LEFT,DOWN,RGHT,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,HOME,PGUP,          TRNS,  TRNS,TRNS,TRNS,TRNS,\
@@ -64,7 +69,16 @@ const uint16_t fn_actions[] PROGMEM = {
     [0] = ACTION_LAYER_MOMENTARY(1),
     [1] = ACTION_BACKLIGHT_DECREASE(),
     [2] = ACTION_BACKLIGHT_TOGGLE(),
-    [3] = ACTION_BACKLIGHT_INCREASE()
+    [3] = ACTION_BACKLIGHT_INCREASE(),
+#ifdef UART_RGB_ENABLE
+    [4] = ACTION_FUNCTION(UART_RGB_ON),
+    [5] = ACTION_FUNCTION(UART_RGB_OFF),
+    [6] = ACTION_FUNCTION(UART_RGB_LEVEL_DECREASE),
+    [7] = ACTION_FUNCTION(UART_RGB_LEVEL_INCREASE),
+    [8] = ACTION_FUNCTION(UART_RGB_COLORSET_DECREASE),
+    [9] = ACTION_FUNCTION(UART_RGB_COLORSET_INCREASE),
+    [10] = ACTION_FUNCTION(UART_RGB_TOGGLE),
+#endif
 };
 
 #ifdef KEYMAP_IN_EEPROM_ENABLE
@@ -74,6 +88,37 @@ uint16_t keys_count(void) {
 
 uint16_t fn_actions_count(void) {
     return sizeof(fn_actions) / sizeof(fn_actions[0]);
+}
+#endif
+
+#ifdef UART_RGB_ENABLE
+void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
+{
+    if (record->event.pressed) {
+        switch (id) {
+            case UART_RGB_ON:
+                uart_rgb_on();
+                break;
+            case UART_RGB_OFF:
+                uart_rgb_off();
+                break;
+            case UART_RGB_TOGGLE:
+                uart_rgb_toggle();
+                break;
+            case UART_RGB_LEVEL_INCREASE:
+                uart_rgb_level_increase();
+                break;
+            case UART_RGB_LEVEL_DECREASE:
+                uart_rgb_level_decrease();
+                break;
+            case UART_RGB_COLORSET_INCREASE:
+                uart_rgb_colorset_increase();
+                break;
+            case UART_RGB_COLORSET_DECREASE:
+                uart_rgb_colorset_decrease();
+                break;
+        }
+    }
 }
 #endif
 

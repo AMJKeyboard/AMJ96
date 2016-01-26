@@ -26,6 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "debug.h"
 #include "util.h"
 #include "matrix.h"
+#ifdef UART_RGB_ENABLE
+#include "uart_rgb.h"
+#endif
 
 #ifndef DEBOUNCE
 #   define DEBOUNCE 5
@@ -56,6 +59,10 @@ uint8_t matrix_cols(void)
 
 void matrix_init(void)
 {
+
+#ifdef UART_RGB_ENABLE
+uart_rgb_init();
+#endif
     // disable JTAG
     MCUCR = _BV(JTD);
     MCUCR = _BV(JTD);
