@@ -3,10 +3,13 @@
 #include "print.h"
 
 static uint8_t mode_id  = 1;
-const uint8_t MODE_MAX = 12;
+const uint8_t MODE_MAX = 15;
+
 static uint8_t color_id  = 1;
 const uint8_t COLOR_MAX = 9;
+
 static uint8_t reduce_id  = 1;
+static uint8_t toggle_flag = 0;
 const uint8_t REDUCE_MAX = 10;
 
 void uart_rgb_init(void) {
@@ -19,7 +22,6 @@ void uart_rgb_init(void) {
     UCSR1A &= ~_BV(U2X1);
     UCSR1C = (1 << UCSZ11) | (1 << UCSZ10);
     UCSR1B |= _BV(TXEN1);
-    print("\n");
 }
 
 bool uart_rgb_send_is_ready(void) {
@@ -27,38 +29,29 @@ bool uart_rgb_send_is_ready(void) {
 }
 
 void uart_rgb_send_byte(uint8_t byte_data) {
-    print_hex8(byte_data);
-    print("\n");
     while (!(uart_rgb_send_is_ready()));
+
     UDR1 = byte_data;
 }
 
 void uart_rgb_on(void){
-    print("UART RGN ON(16): ");
     uart_rgb_send_byte(0x16);
 }
 
+
 void uart_rgb_off(void) {
-    print("UART RGB OFF(26): ");
     uart_rgb_send_byte(0x26);
 }
 
-void uart_rgb_toggle(void) {
-    print("UART RGB REDUCE: ");
-    if (reduce_id == REDUCE_MAX) {
-        reduce_id = 1;
-    }
-    else {
-        reduce_id ++;
-    }
 
-    uint8_t cmd = (reduce_id << 4) + 4;
+void uart_rgb_toggle(void) {
+    toggle_flag ^= 0b1;
+    uint8_t cmd = (toggle_flag + 1 << 4) + 6;
     uart_rgb_send_byte(cmd);
 }
 
 
 void uart_rgb_level_increase(void){
-    print("UART MODE INC: ");
     if ( mode_id < MODE_MAX){
         mode_id ++;
     }
@@ -67,7 +60,6 @@ void uart_rgb_level_increase(void){
 }
 
 void uart_rgb_level_decrease(void){
-    print("UART MODE DEC: ");
     if ( mode_id > 1){
         mode_id --;
     }
@@ -76,7 +68,6 @@ void uart_rgb_level_decrease(void){
 }
 
 void uart_rgb_colorset_increase(void){
-    print("UART COLORSET INC: ");
     if ( color_id < COLOR_MAX){
         color_id ++;
     }
@@ -85,7 +76,6 @@ void uart_rgb_colorset_increase(void){
 }
 
 void uart_rgb_colorset_decrease(void){
-    print("UART COLORSET DEC: ");
     if ( color_id > 1){
         color_id --;
     }

@@ -28,7 +28,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      * `----------------------------------------------------------------------------'
      */
     KEYMAP(
-        ESC, FN1,  FN2,  FN3,  FN4,  FN5,  FN6,  FN7,  FN8,  FN9,  FN10, F11, F12, PSCR,PAUS,  INS, DEL, PGUP,PGDN, \
+        ESC, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, PSCR,PAUS,  INS, DEL, PGUP,PGDN, \
         GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, BSPC,NO,    NLCK,PSLS,PAST,PMNS, \
         TAB, Q,   W,   E,   R,   T,   Y,   U,   I,   O,   P,   LBRC,RBRC,     BSLS,  P7,  P8,  P9,  PPLS, \
         CAPS,A,   S,   D,   F,   G,   H,   J,   K,   L,   SCLN,QUOT,          ENT,   P4,  P5,  P6,  PPLS, \
@@ -94,6 +94,8 @@ uint16_t fn_actions_count(void) {
 #ifdef UART_RGB_ENABLE
 void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
+
+
     if (record->event.pressed) {
         switch (id) {
             case UART_RGB_ON:

@@ -22,14 +22,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0xFEED
 #define PRODUCT_ID      0x6074
-#define DEVICE_VER      0x0001
+#define DEVICE_VER      0x0002
 #define MANUFACTURER    Han Chen
 #define PRODUCT         AMJ96
 #define DESCRIPTION     t.m.k. keyboard firmware for AMJ96
 
 /* key matrix size */
-#define MATRIX_ROWS 6
-#define MATRIX_COLS 18
+#define MATRIX_ROWS 7
+#define MATRIX_COLS 16
 
 /* keymap in eeprom */
 #define FN_ACTIONS_COUNT 32

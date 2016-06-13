@@ -33,27 +33,27 @@ ledmap_t ledmap_get_code(uint8_t index)
 
 void ledmap_led_init(void)
 {
-    DDRE |= _BV(PE7);
-    PORTE |= _BV(PE7);
+    DDRB |= _BV(PB5);
+    PORTB |= _BV(PB5);
 
-    DDRB |= _BV(PB2);
-    PORTB |= _BV(PB2);
+    DDRB |= _BV(PB4);
+    PORTB |= _BV(PB4);
 
-    DDRB  |= _BV(PB4);
-    PORTB &= ~_BV(PB4);
+    DDRC  |= _BV(PC6);
+    PORTC &= ~_BV(PC6);
 }
 
 void ledmap_led_on(uint8_t index)
 {
     switch (index) {
         case 0:
-            PORTE &= ~_BV(PE7);
+            PORTB &= ~_BV(PB5);
             break;
         case 1:
-            PORTB &= ~_BV(PB2);
+            PORTB &= ~_BV(PB4);
             break;
         case 2:
-            PORTB |= _BV(PB4);
+            PORTC |= _BV(PC6);
             break;
     }
 }
@@ -62,13 +62,13 @@ void ledmap_led_off(uint8_t index)
 {
     switch (index) {
         case 0:
-            PORTE |= _BV(PE7);
+            PORTB |= _BV(PB5);
             break;
         case 1:
-            PORTB |= _BV(PB2);
+            PORTB |= _BV(PB4);
             break;
         case 2:
-            PORTB &= ~_BV(PB4);
+            PORTC &= ~_BV(PC6);
             break;
     }
 }

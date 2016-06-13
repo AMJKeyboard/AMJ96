@@ -2,13 +2,14 @@
 #ifdef UART_RGB_ENABLE
 #include <LUFA/Drivers/Peripheral/Serial.h>
 
-#define UART_RGB_ON 0x00F1
-#define UART_RGB_OFF 0x00F2
-#define UART_RGB_TOGGLE 0x00F3
-#define UART_RGB_LEVEL_INCREASE 0x00F4
-#define UART_RGB_LEVEL_DECREASE 0x00F5
-#define UART_RGB_COLORSET_INCREASE 0x00F6
-#define UART_RGB_COLORSET_DECREASE 0x00F7
+#define UART_RGB_ON 0x0000
+#define UART_RGB_OFF 0x0001
+#define UART_RGB_TOGGLE 0x002
+#define UART_RGB_LEVEL_INCREASE 0x0003
+#define UART_RGB_LEVEL_DECREASE 0x0004
+#define UART_RGB_COLORSET_INCREASE 0x0005
+#define UART_RGB_COLORSET_DECREASE 0x0006
+
 
 void uart_rgb_init(void);
 bool uart_rgb_send_is_ready(void);
